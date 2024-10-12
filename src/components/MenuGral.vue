@@ -3,9 +3,9 @@
         <div class="row justify-content-center">
             <div class="col-auto">
                 <div class="btn-group" role="group">
-                    <button type="button" class="btn btn-primary">¿Cómo se usa?</button>
-                    <button type="button" class="btn btn-success">+ Reclamo</button>
-                    <button type="button" class="btn btn-success">+ Evento</button>
+                    <button type="button" class="btn btn-outline-primary">¿Cómo se usa?</button>
+                    <button type="button" class="btn btn-outline-success">+ Reclamo</button>
+                    <button type="button" class="btn btn-outline-success">+ Evento</button>
                 </div>
             </div>
         </div>
@@ -23,6 +23,6 @@
     left: 0;
     width: 100vw;
     padding: .75rem;
-    background: rgba(255, 255, 255, .5);
+    background: rgba(255, 255, 255, .95);
 }
 </style>
