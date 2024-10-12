@@ -1,17 +1,13 @@
 <template>
     <div class="cont-gral-menu">
-        <div class="row">
-            <div class="col"></div>
+        <div class="row justify-content-center">
             <div class="col-auto">
-                <button type="button" class="btn btn-primary">¿Cómo se usa?</button>
+                <div class="btn-group" role="group">
+                    <button type="button" class="btn btn-primary">¿Cómo se usa?</button>
+                    <button type="button" class="btn btn-success">+ Reclamo</button>
+                    <button type="button" class="btn btn-success">+ Evento</button>
+                </div>
             </div>
-            <div class="col-auto">
-                <button type="button" class="btn btn-primary">Agregar Reclamo / Queja</button>
-            </div>
-            <div class="col-auto">
-                <button type="button" class="btn btn-primary">Agregar Evento</button>
-            </div>
-            <div class="col"></div>
         </div>
     </div>
 </template>
