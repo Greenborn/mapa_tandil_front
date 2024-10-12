@@ -33,14 +33,4 @@ import MenuGral from './components/MenuGral.vue';
     }
   }
 }
-
-.cont-gral-menu{
-  position: absolute;
-  top: 0px;
-  z-index: 1000;
-  left: 0;
-  width: 100vw;
-  padding: .75rem;
-  background: rgba(0,0,0,.5);
-}
 </style>
