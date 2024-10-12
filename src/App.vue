@@ -1,5 +1,7 @@
 <template>
-  <MapaGral />
+  <div class="container-fluid">
+    <MapaGral />
+  </div>
 </template>
 
 <script setup>
