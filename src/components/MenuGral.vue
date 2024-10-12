@@ -2,10 +2,9 @@
     <div class="cont-gral-menu">
         <div class="row justify-content-center">
             <div class="col-auto">
-                <div class="btn-group" role="group">
-                    <button type="button" class="btn btn-outline-primary">¿Cómo se usa?</button>
-                    <button type="button" class="btn btn-outline-success">+ Reclamo</button>
-                    <button type="button" class="btn btn-outline-success">+ Evento</button>
+                <div class="btn-group btn-group-sm" role="group">
+                    <button type="button" v-for="enlace in ENLACES" :key="enlace.id" 
+                        @click="emit('btn_click', enlace)" :class="enlace.class">{{ enlace.label }}</button>
                 </div>
             </div>
         </div>
@@ -13,9 +12,16 @@
 </template>
 
 <script setup>
+const ENLACES = [
+    { label: '¿Cómo se usa?', icon: '', class: 'btn btn-outline-primary', id: 'INFO' },
+    { label: '+ Reclamo', icon: '', class: 'btn btn-outline-success', id: 'NEW_RECLAMO' },
+    { label: '+ Evento', icon: '', class: 'btn btn-outline-success', id: 'NEW_EVENTO' },
+]
+
+const emit  = defineEmits(['btn_click'])
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
 .cont-gral-menu {
     position: absolute;
     top: 0px;
