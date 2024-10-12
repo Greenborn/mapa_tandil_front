@@ -1,18 +1,17 @@
 <template>
   <div class="container-fluid">
+    <MenuGral />
     <MapaGral />
   </div>
 </template>
 
 <script setup>
 import MapaGral from './components/MapaGral.vue'
+import MenuGral from './components/MenuGral.vue';
 
 </script>
 
 <style lang="scss">
-//@import "primevue/resources/primevue.min.css";
-//@import "./assets/_theme.scss";
-// @import "~primevue/resources/themes/md-light-deeppurple/theme.css";
 
 #app {
   font-family: Avenir, Helvetica, Arial, sans-serif;
@@ -33,5 +32,15 @@ import MapaGral from './components/MapaGral.vue'
       color: #42b983;
     }
   }
+}
+
+.cont-gral-menu{
+  position: absolute;
+  top: 0px;
+  z-index: 1000;
+  left: 0;
+  width: 100vw;
+  padding: .75rem;
+  background: rgba(0,0,0,.5);
 }
 </style>
