@@ -166,9 +166,15 @@ async function update_context(contexto) {
     //console.log(ultimo_enlace?.id)
     if (ultimo_enlace?.id === "MAP") {
         update_reclamos()
+        select_none()
+    }
+
+    if (ultimo_enlace?.id === "HELP") {
+        select_none()
     }
 
     if (ultimo_enlace?.id === "NEW_RECLAMO") {
+        select_none()
         new_reclamo_p1()
     } else {
         if (ultimo_punto.value !== null)
