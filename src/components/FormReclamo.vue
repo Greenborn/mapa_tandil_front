@@ -62,7 +62,7 @@ const model = ref({
 
 const config_img = ref({
     max_files: 3,
-    max_file_size: 1024 * 1024 * 3 //3MB
+    max_file_size: 1024 * 1024 * 1 //3MB
 })
 
 function enviar(){

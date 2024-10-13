@@ -42,8 +42,10 @@
 </template>
 
 <script setup>
-import { ref } from 'vue';
+import { ref, onMounted } from 'vue';
 import ToastsCtrl from './ToastsCtrl.vue';
+
+import { get_reclamos, new_reclamo } from '@/api/reclamos'
 
 defineExpose({ update_context })
 const emit  = defineEmits(['navigate'])
@@ -105,7 +107,17 @@ async function update_context(contexto) {
         if (ultimo_punto.value !== null)
             vectorsource.value.source.removeFeature( ultimo_punto.value )
         toasts_ref.value.dissmiss()
-    }   
+    }  
+    
+    if (context.value?.action === "NEW_RECLAMO" && context.value?.form_reclamo_data){
+        let res_ = await new_reclamo(context.value?.form_reclamo_data)
+        if (res_.stat){
+            console.log(res_)
+            alert("Reclamo subido correctamente.")
+        } else {
+            alert(res_.error)
+        }
+    }
 }
 
 function toast_btn_click(evnt){
@@ -131,4 +143,11 @@ function drawend(event) {
         new_reclamo_p2()
     }
 }
+
+onMounted(async () => {
+    let res = await get_reclamos()
+    if (res.stat){
+        console.log(res)
+    }
+})
 </script>
