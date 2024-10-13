@@ -1,6 +1,6 @@
 <template>
     <ToastsCtrl ref="toasts_ref" @btn_click="toast_btn_click" />
-    <DetallePunto :info="selected" />
+    <DetallePunto  :info="selected" @close="select_none"/>
     <div class="cont-modal">
         <ol-map :loadTilesWhileAnimating="true" :loadTilesWhileInteracting="true" style="height: calc(100vh - 3.5rem)"
             ref="map_ref">
@@ -81,6 +81,7 @@ const context = ref({
     "proceso_actual": "",
     "proceso_paso_actual": 0
 })
+
 const ultima_posicion = ref([])
 const toasts_ref = ref(null)
 const vectorsource = ref(null);
@@ -106,6 +107,12 @@ const ultimo_punto = ref(null);
 const marcadores = ref([])
 
 const selectedFeatures = ref([]);
+
+function select_none(){
+    selected.value = null
+    drawEnable.value = false
+}
+
 const featureSelected = (event) => {
       if (event.selected.length == 1) {
         selectedCityPosition.value = extent.getCenter(
@@ -143,6 +150,7 @@ function new_reclamo_p1() {
 
 function new_reclamo_p2() {
     drawEnable.value = false
+
     context.value.proceso_paso_actual = 2
     toasts_ref.value.present({
         title: 'Nuevo Reclamo', title_small: 'Paso 2',
@@ -156,6 +164,10 @@ async function update_context(contexto) {
     const ultimo_enlace = context.value?.ultimo_enlace
     context.value.proceso_actual = ultimo_enlace?.id
     //console.log(ultimo_enlace?.id)
+    if (ultimo_enlace?.id === "MAP") {
+        update_reclamos()
+    }
+
     if (ultimo_enlace?.id === "NEW_RECLAMO") {
         new_reclamo_p1()
     } else {
@@ -202,6 +214,9 @@ function drawend(event) {
 
 async function update_reclamos() {
     marcadores.value = []
+    context.value.action = ""
+    context.value.ultimo_enlace = { id: "MAP" }
+    context.value.proceso_actual = "MAP"
     let res = await get_reclamos()
     if (res.stat) {
         for (let i = 0; i < res.data.length; i++) {

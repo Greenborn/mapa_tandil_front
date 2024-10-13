@@ -1,19 +1,25 @@
 <template>
-    <div class="detalle-conte" v-if="props.info !== null">
+    <div class="detalle-conte" v-if="props?.info !== null && props.info?.id != undefined">
         <div class="w-100">
 
             <div class="card">
                 <div class="card-body">
-                    <h5 class="card-title">{{ props.info?.titulo }}</h5>
+                    <div class="row">
+                        <div class="col"><h5 class="card-title">{{ props.info?.titulo }}</h5></div>
+                        <div class="col-auto">
+                            <button type="button" class="btn-close" aria-label="Close" @click="emit('close')"></button>
+                        </div>
+                    </div>
                     <p class="card-text">{{ props.info?.detalles }}</p>
                 </div>
                 <ul class="list-group list-group-flush">
                     
                     <li class="list-group-item">{{ fechaDateToString(new Date(props.info?.ts), '-') }}</li>
-                    <li class="list-group-item"><img v-for="img in get_images()" :key="img" :src="img.src" /></li>
-                    <li class="list-group-item">{{ props.info?.ipv4 }}</li>
-                    <li class="list-group-item">{{ props.info?.ipv6 }}</li>
-                    <li class="list-group-item">{{ props.info?.user_agent }}</li>
+                    <li class="list-group-item"><img class="mt-1" v-for="img in get_images()" :key="img" :src="img.src" /></li>
+                    <li class="list-group-item"><b>IP:</b> {{ props.info?.ipv4 }}</li>
+                    <!--<li class="list-group-item"><b>IPv6:</b> {{ props.info?.ipv6 }}</li>-->
+                    <li class="list-group-item"><b>Dispositivo:</b> {{ props.info?.user_agent }}</li>
+                    <li class="list-group-item"><b>ID:</b> {{ props.info?.id }}</li>
                 </ul>
             </div>
 
@@ -24,9 +30,11 @@
 <script setup>
 import { fechaDateToString } from '@/helpers/formatter'
 const props = defineProps(['info'])
+const emit = defineEmits(['close'])
 
 function get_images() {
-    let info = JSON.parse(props.info.imagenes)
+    if (!props.info?.imagenes) return []
+    let info = JSON.parse(props.info?.imagenes)
     for (let i = 0; i < info.length; i++) {
         info[i]['src'] = process.env.VUE_APP_API_URL + info[i]?.id + info[i]?.extension
     }
