@@ -5,22 +5,47 @@
 
                 <div class="row justify-content-center">
                     <div class="col-auto">
-<!-- AQUI VA LOGO -->
+                        <!-- AQUI VA LOGO -->
                     </div>
                 </div>
-                
+
                 <div class="row justify-content-center">
                     <div class="col-auto p-4">
                         <h1 class="text-center">Mapa - Reclamos</h1>
 
                         <p>
-                            Este mapa nace con la idea de poder contar con un registro público de reclamos referentes a la 
-                            ciudad de Tandil, Bs As, Argentina. Referenciando cada uno de ellos con una ubicación geográfica, una descripción,
+                            Este mapa nace con la idea de poder contar con un registro público de reclamos referentes a
+                            la
+                            ciudad de Tandil, Bs As, Argentina. Referenciando cada uno de ellos con una ubicación
+                            geográfica, una descripción,
                             fecha y hora, y al menos una foto que lo atestigue.
                         </p>
+
+                        <p>
+                            Así mismo se registra la IP y el dispositivo desde el que se envia el reclamo, para poder
+                            identificar
+                            la fuente de información.
+                        </p>
+
+                        <p>
+                            Al usar este sitio acepta que <b>cada uno es responsable del contenido que publica</b>.
+                            Si observa contenido falaz o inapropiado, puede reportarlo por mensaje privado a
+                            <a href="https://web.facebook.com/greenborn.software">Greenborn</a> indicando el id de
+                            reclamo, haciendo captura de pantalla
+                            o especificando referencias de la publicación a reportar.
+                        </p>
+
+                        <h2 class="text-center">¿Como registro un reclamo?</h2>
+
+                        <ul class="list-group">
+                            <li class="list-group-item">1. Hacer click en <b>"+ Reclamo"</b></li>
+                            <li class="list-group-item">2. Hacer click en la zona del mapa</li>
+                            <li class="list-group-item">3. Hacer click en <b>"SI"</b> para confirmar la ubicación</li>
+                            <li class="list-group-item">4. Completar los detalles del reclamo y apretar en <b>"ENVIAR</b></li>
+                        </ul>
                     </div>
                 </div>
-                
+
             </div>
         </div>
     </div>
@@ -30,11 +55,11 @@
 </script>
 
 <style lang="scss" scoped>
-.cont-modal{
-    background: rgba(255,255,255,.4);
+.cont-modal {
+    background: rgba(255, 255, 255, .4);
 }
 
-.contenido{
-    background: rgba(255,255,255,.8);
+.contenido {
+    background: rgba(255, 255, 255, .8);
 }
 </style>
