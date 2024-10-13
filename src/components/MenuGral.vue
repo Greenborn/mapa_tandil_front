@@ -13,7 +13,8 @@
 
 <script setup>
 const ENLACES = [
-    { label: '¿Cómo se usa?', icon: '', class: 'btn btn-outline-primary', id: 'INFO' },
+    { label: 'Mapa', icon: '', class: 'btn btn-outline-primary', id: 'MAP' },
+    { label: '¿Cómo se usa?', icon: '', class: 'btn btn-outline-primary', id: 'HELP' },
     { label: '+ Reclamo', icon: '', class: 'btn btn-outline-success', id: 'NEW_RECLAMO' },
     { label: '+ Evento', icon: '', class: 'btn btn-outline-success', id: 'NEW_EVENTO' },
 ]
@@ -25,7 +26,7 @@ const emit  = defineEmits(['btn_click'])
 .cont-gral-menu {
     position: absolute;
     top: 0px;
-    z-index: 1000;
+    z-index: 1200;
     left: 0;
     width: 100vw;
     padding: .75rem;
