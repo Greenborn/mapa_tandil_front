@@ -26,7 +26,7 @@ async function click_menu(enlace) {
 }
 
 async function click_form_reclamo(data){
-  await mapa_ref.value.update_context({ 'form_reclamo_data': data })
+  await mapa_ref.value.update_context({ 'form_reclamo_data': data, 'action': "NEW_RECLAMO" })
   ultimo_click_menu.value.id = "MAP"
 }
 

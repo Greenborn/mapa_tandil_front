@@ -53,6 +53,7 @@ const context = ref({
     "proceso_actual": "",
     "proceso_paso_actual": 0
 })
+const ultima_posicion = ref([])
 const toasts_ref = ref(null)
 const vectorsource = ref(null);
 const map_ref = ref(null)
@@ -124,7 +125,8 @@ function new_reclamo_p3(){
 
 function drawend(event) {
     ultimo_punto.value = event.feature
-    //console.log(event)
+    ultima_posicion.value = event.feature.values_.geometry.flatCoordinates
+    
     if (context.value.proceso_actual === "NEW_RECLAMO"){
         new_reclamo_p2()
     }
