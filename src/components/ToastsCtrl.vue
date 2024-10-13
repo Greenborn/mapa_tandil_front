@@ -24,7 +24,7 @@
 import { ref } from 'vue';
 
 const emit  = defineEmits(['btn_click'])
-defineExpose({ present })
+defineExpose({ present, dissmiss })
 
 const config = ref({
     title: '', title_small: '',
@@ -37,7 +37,10 @@ const show = ref(false)
 function present(cfg){
     config.value = {...config.value, ...cfg}
     show.value   = true
-    console.log(config.value, show.value)
+}
+
+function dissmiss(){
+    show.value = false
 }
 </script>
 

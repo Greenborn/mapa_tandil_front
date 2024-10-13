@@ -47,10 +47,12 @@ import { ref } from 'vue';
 import ToastsCtrl from './ToastsCtrl.vue';
 
 defineExpose({ update_context })
+const emit  = defineEmits(['navigate'])
 
 const context = ref({
     "ultimo_enlace": null,
-    "proceso_actual": ""
+    "proceso_actual": "",
+    "proceso_paso_actual": 0
 })
 const toasts_ref = ref(null)
 const vectorsource = ref(null);
@@ -78,12 +80,13 @@ function new_reclamo_p1(){
         close_btn: false, confirm_btn: false,
         msg: 'Haga click en la ubicación del mapa.'
     })
-
+    context.value.proceso_paso_actual = 1
     drawEnable.value = true
 }
 
 function new_reclamo_p2(){
     drawEnable.value = false
+    context.value.proceso_paso_actual = 2
     toasts_ref.value.present({
         title: 'Nuevo Reclamo', title_small: 'Paso 2',
         close_btn: false, confirm_btn: true,
@@ -102,16 +105,18 @@ async function update_context(contexto) {
 }
 
 function toast_btn_click(evnt){
-    
     if (context.value.proceso_actual === "NEW_RECLAMO"){
-        if (evnt){
-            //se avanza a paso 3
-
-        } else {
-            //Se vuelve a paso 1
+        if (evnt)
+            new_reclamo_p3()
+        else 
             new_reclamo_p1()
-        }
     }
+}
+
+function new_reclamo_p3(){
+    toasts_ref.value.dissmiss()
+    context.value.proceso_paso_actual = 3
+    emit('navigate', { id:'RECLAMO_PASO_3' })
 }
 
 function drawend(event) {

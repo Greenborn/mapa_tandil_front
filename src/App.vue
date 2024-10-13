@@ -2,9 +2,10 @@
   <div class="container-fluid">
     <MenuGral @btn_click="click_menu" />
 
-    <MapaGral ref="mapa_ref" />
+    <MapaGral ref="mapa_ref" @navigate="click_menu" />
 
     <HelpPage v-if="ultimo_click_menu.id === 'HELP'" />
+    <FormReclamo v-if="ultimo_click_menu.id === 'RECLAMO_PASO_3'" />
   </div>
 </template>
 
@@ -14,6 +15,7 @@ import { ref } from 'vue';
 import MapaGral from './components/MapaGral.vue'
 import MenuGral from './components/MenuGral.vue';
 import HelpPage from './components/HelpPage.vue';
+import FormReclamo from './components/FormReclamo.vue';
 
 const mapa_ref = ref(null)
 const ultimo_click_menu = ref({ id: "MAP" })
