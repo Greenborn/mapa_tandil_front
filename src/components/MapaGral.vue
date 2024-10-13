@@ -1,5 +1,6 @@
 <template>
     <ToastsCtrl ref="toasts_ref" @btn_click="toast_btn_click" />
+    <DetallePunto :info="selected" />
     <div class="cont-modal">
         <ol-map :loadTilesWhileAnimating="true" :loadTilesWhileInteracting="true" style="height: calc(100vh - 3.5rem)"
             ref="map_ref">
@@ -52,10 +53,10 @@
                     </ol-style-circle>
                 </ol-style>
 
-                <ol-overlay :position="selectedCityPosition" v-if="selectedCityName != '' && !drawEnable">
+                <ol-overlay :position="selectedCityPosition" v-if="selectedTitulo != '' && !drawEnable">
                     <template v-slot="slotProps">
                         <div class="overlay-content">
-                            {{ selectedCityName }} {{ slotProps }}
+                            {{ selectedTitulo }} {{ slotProps.position }}
                         </div>
                     </template>
                 </ol-overlay>
@@ -70,6 +71,7 @@ import { ref, inject, onMounted } from 'vue';
 import ToastsCtrl from './ToastsCtrl.vue';
 //import markerIcon from "@/assets/logo.png";
 import { get_reclamos, new_reclamo } from '@/api/reclamos'
+import DetallePunto from './DetallePunto.vue';
 
 defineExpose({ update_context })
 const emit = defineEmits(['navigate'])
@@ -88,8 +90,9 @@ const view = ref(null);
 const extent = inject("ol-extent");
 const selectConditions = inject("ol-selectconditions")
 const selectCondition = selectConditions.SingleClick;
-const selectedCityName = ref("");
+const selectedTitulo = ref("");
 const selectedCityPosition = ref([]);
+const selected = ref(null)
 
 const center = ref([-59.135030396398676, -37.33961347533027]);
 const projection = ref('EPSG:4326');
@@ -108,10 +111,17 @@ const featureSelected = (event) => {
         selectedCityPosition.value = extent.getCenter(
           event.selected[0].getGeometry().extent_
         );
-        console.log(event.selected[0].values_)
-        selectedCityName.value = event.selected[0].values_.titulo;
+        selected.value = event.selected[0].values_
+        try {
+            view.value.setCenter(JSON.parse(selected.value.posicion))
+        } catch (error) {
+            console.log()
+        }
+        
+        selectedTitulo.value = event.selected[0].values_.titulo;
       } else {
-        selectedCityName.value = "";
+        selectedTitulo.value = "";
+        selected.value = null
       }
 
       selectedFeatures.value = event.selected;
@@ -209,10 +219,12 @@ onMounted(async () => {
 
 <style lang="scss" scoped>
 .overlay-content {
-  background: red !important;
+  background: #4a0000 !important;
   color: white;
   box-shadow: 0 5px 10px rgb(2 2 2 / 20%);
   padding: 10px 20px;
   font-size: 16px;
+  border-radius: 1rem;
+  font-weight: bold;
 }
 </style>
