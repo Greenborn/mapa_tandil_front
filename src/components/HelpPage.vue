@@ -11,10 +11,10 @@
                 
                 <div class="row justify-content-center">
                     <div class="col-auto p-4">
-                        <h1 class="text-center">Mapa - Reclamos y Eventos</h1>
+                        <h1 class="text-center">Mapa - Reclamos</h1>
 
                         <p>
-                            Este mapa nace con la idea de poder contar con un registro público de reclamos y eventos referentes a la 
+                            Este mapa nace con la idea de poder contar con un registro público de reclamos referentes a la 
                             ciudad de Tandil, Bs As, Argentina. Referenciando cada uno de ellos con una ubicación geográfica, una descripción,
                             fecha y hora, y al menos una foto que lo atestigue.
                         </p>

@@ -5,7 +5,7 @@
     <MapaGral ref="mapa_ref" @navigate="click_menu" />
 
     <HelpPage v-if="ultimo_click_menu.id === 'HELP'" />
-    <FormReclamo v-if="ultimo_click_menu.id === 'RECLAMO_PASO_3'" />
+    <FormReclamo v-if="ultimo_click_menu.id === 'RECLAMO_PASO_3'" @btn_click="click_form_reclamo" />
   </div>
 </template>
 
@@ -23,6 +23,11 @@ const ultimo_click_menu = ref({ id: "MAP" })
 async function click_menu(enlace) {
   ultimo_click_menu.value = enlace
   await mapa_ref.value.update_context({ 'ultimo_enlace': enlace})
+}
+
+async function click_form_reclamo(data){
+  await mapa_ref.value.update_context({ 'form_reclamo_data': data })
+  ultimo_click_menu.value.id = "MAP"
 }
 
 </script>

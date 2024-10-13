@@ -22,7 +22,10 @@
 <script setup>
 import { ref } from 'vue';
 
-const archivos = ref([])
+const props = defineProps(['modelValue'])
+const emit  = defineEmits(['update:modelValue'])
+
+const archivos = ref(props.modelValue ? props.modelValue : [])
 
 function archivo_seleccionado(evnt) {
     archivos.value = []
@@ -37,6 +40,7 @@ function archivo_seleccionado(evnt) {
                 src: URL.createObjectURL(files[i]),
                 base64: String(reader.result)
             })
+            emit('update:modelValue', archivos.value)
         }
     }
 }

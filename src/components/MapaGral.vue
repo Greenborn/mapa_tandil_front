@@ -1,7 +1,6 @@
 <template>
     <ToastsCtrl ref="toasts_ref" @btn_click="toast_btn_click"/>
     <div class="cont-modal">
-        
         <ol-map :loadTilesWhileAnimating="true" :loadTilesWhileInteracting="true" 
             style="height: calc(100vh - 3.5rem)" ref="map_ref">
             <ol-view ref="view" :center="center" :rotation="rotation" :zoom="zoom" :projection="projection" />
@@ -95,13 +94,17 @@ function new_reclamo_p2(){
 }
 
 async function update_context(contexto) {
-    context.value = contexto
+    context.value = {...context.value, ...contexto}
     const ultimo_enlace = context.value?.ultimo_enlace
+    context.value.proceso_actual = ultimo_enlace?.id
     //console.log(ultimo_enlace?.id)
     if (ultimo_enlace?.id === "NEW_RECLAMO") {
-        context.value.proceso_actual = "NEW_RECLAMO"
         new_reclamo_p1()
-    }
+    } else {
+        if (ultimo_punto.value !== null)
+            vectorsource.value.source.removeFeature( ultimo_punto.value )
+        toasts_ref.value.dissmiss()
+    }   
 }
 
 function toast_btn_click(evnt){

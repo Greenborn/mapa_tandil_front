@@ -16,7 +16,7 @@ const ENLACES = [
     { label: 'Mapa', icon: '', class: 'btn btn-outline-primary', id: 'MAP' },
     { label: '¿Cómo se usa?', icon: '', class: 'btn btn-outline-primary', id: 'HELP' },
     { label: '+ Reclamo', icon: '', class: 'btn btn-outline-success', id: 'NEW_RECLAMO' },
-    { label: '+ Evento', icon: '', class: 'btn btn-outline-success', id: 'NEW_EVENTO' },
+    //{ label: '+ Evento', icon: '', class: 'btn btn-outline-success', id: 'NEW_EVENTO' },
 ]
 
 const emit  = defineEmits(['btn_click'])

@@ -13,23 +13,25 @@
                     <div class="col p-2">
                         <div class="mb-3">
                             <label for="titulo" class="form-label">Título</label>
-                            <input type="text" class="form-control" id="titulo" placeholder="Calle en mal estado...">
+                            <input type="text" class="form-control" id="titulo" placeholder="Calle en mal estado..."
+                                v-model="model.titulo">
                         </div>
 
                         <div class="mb-3">
                             <label for="detalles" class="form-label">Detalles</label>
-                            <textarea class="form-control" id="detalles" rows="3"></textarea>
+                            <textarea class="form-control" id="detalles" rows="3"
+                                v-model="model.detalles"></textarea>
                         </div>
 
-                        <ImagenesInput />
+                        <ImagenesInput v-model="model.imagenes" />
                     </div>
                 </div>
 
                 <div class="row justify-content-center border-top">
                     <div class="col-auto p-2">
                         <div class="btn-group btn-group-sm" role="group">
-                            <button type="button" class="btn btn-outline-secondary">Cancelar</button>
-                            <button type="button" class="btn btn-outline-primary">Enviar</button>
+                            <button type="button" class="btn btn-outline-secondary" @click="emit('btn_click', false)">Cancelar</button>
+                            <button type="button" class="btn btn-outline-primary" @click="emit('btn_click', model)">Enviar</button>
                         </div>
                     </div>
                 </div>
@@ -40,8 +42,17 @@
 </template>
 
 <script setup>
+import { ref } from 'vue';
+
 import ImagenesInput from './ImagenesInput.vue';
 
+const emit  = defineEmits(['btn_click'])
+
+const model = ref({
+    titulo: '',
+    detalles: '',
+    imagenes: []
+})
 </script>
 
 <style lang="scss" scoped>
