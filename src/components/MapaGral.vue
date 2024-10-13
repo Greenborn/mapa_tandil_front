@@ -9,7 +9,7 @@
 
             <ol-vector-layer>
                 <ol-source-vector ref="vectorsource" :projection="projection">
-                    <ol-feature v-for="marcador in marcadores" :key="marcador">
+                    <ol-feature v-for="marcador in marcadores" :key="marcador" :properties="marcador">
                         <ol-geom-point :coordinates="marcador?.coordinate"></ol-geom-point>
                         <!--<ol-style>
                             <ol-style-icon :src="marcador?.icon" :scale="marcador?.size"></ol-style-icon>
@@ -33,6 +33,15 @@
                             </ol-style-circle>
                         </ol-style>
                     </ol-interaction-draw>
+
+                    <ol-interaction-select @select="featureSelected" :condition="selectCondition">
+                        <ol-style>
+                            <ol-style-circle :radius="7">
+                                <ol-style-stroke color="green" :width="10"></ol-style-stroke>
+                                <ol-style-fill color="rgba(255,255,255,0.5)"></ol-style-fill>
+                            </ol-style-circle>
+                        </ol-style>
+                    </ol-interaction-select>
                 </ol-source-vector>
 
                 <ol-style>
@@ -42,6 +51,14 @@
                         <ol-style-fill color="red"></ol-style-fill>
                     </ol-style-circle>
                 </ol-style>
+
+                <ol-overlay :position="selectedCityPosition" v-if="selectedCityName != '' && !drawEnable">
+                    <template v-slot="slotProps">
+                        <div class="overlay-content">
+                            {{ selectedCityName }} {{ slotProps }}
+                        </div>
+                    </template>
+                </ol-overlay>
             </ol-vector-layer>
 
         </ol-map>
@@ -49,9 +66,9 @@
 </template>
 
 <script setup>
-import { ref, onMounted } from 'vue';
+import { ref, inject, onMounted } from 'vue';
 import ToastsCtrl from './ToastsCtrl.vue';
-
+//import markerIcon from "@/assets/logo.png";
 import { get_reclamos, new_reclamo } from '@/api/reclamos'
 
 defineExpose({ update_context })
@@ -67,7 +84,12 @@ const toasts_ref = ref(null)
 const vectorsource = ref(null);
 const map_ref = ref(null)
 const view = ref(null);
-//import markerIcon from "@/assets/logo.png";
+
+const extent = inject("ol-extent");
+const selectConditions = inject("ol-selectconditions")
+const selectCondition = selectConditions.SingleClick;
+const selectedCityName = ref("");
+const selectedCityPosition = ref([]);
 
 const center = ref([-59.135030396398676, -37.33961347533027]);
 const projection = ref('EPSG:4326');
@@ -79,6 +101,22 @@ const drawType = ref("Point");
 const ultimo_punto = ref(null);
 
 const marcadores = ref([])
+
+const selectedFeatures = ref([]);
+const featureSelected = (event) => {
+      if (event.selected.length == 1) {
+        selectedCityPosition.value = extent.getCenter(
+          event.selected[0].getGeometry().extent_
+        );
+        console.log(event.selected[0].values_)
+        selectedCityName.value = event.selected[0].values_.titulo;
+      } else {
+        selectedCityName.value = "";
+      }
+
+      selectedFeatures.value = event.selected;
+    }
+
 
 function new_reclamo_p1() {
     if (ultimo_punto.value !== null)
@@ -152,14 +190,14 @@ function drawend(event) {
     }
 }
 
-async function update_reclamos(){
+async function update_reclamos() {
     marcadores.value = []
     let res = await get_reclamos()
     if (res.stat) {
-        for (let i=0; i < res.data.length; i++) {
+        for (let i = 0; i < res.data.length; i++) {
             let reclamo = res.data[i]
             //console.log(reclamo)
-            marcadores.value.push({...reclamo, coordinate: JSON.parse(reclamo.posicion) })
+            marcadores.value.push({ ...reclamo, coordinate: JSON.parse(reclamo.posicion) })
         }
     }
 }
@@ -168,3 +206,13 @@ onMounted(async () => {
     await update_reclamos()
 })
 </script>
+
+<style lang="scss" scoped>
+.overlay-content {
+  background: red !important;
+  color: white;
+  box-shadow: 0 5px 10px rgb(2 2 2 / 20%);
+  padding: 10px 20px;
+  font-size: 16px;
+}
+</style>
