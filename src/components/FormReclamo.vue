@@ -25,7 +25,7 @@
                                     v-model="model.detalles"></textarea>
                             </div>
 
-                            <ImagenesInput v-model="model.imagenes" />
+                            <ImagenesInput v-model="model.imagenes" :config="config_img"/>
                         </div>
                     </div>
 
@@ -35,7 +35,7 @@
                                 <button type="button" class="btn btn-outline-secondary"
                                     @click="emit('btn_click', false)">Cancelar</button>
                                 <button type="button" class="btn btn-outline-primary"
-                                    @click="emit('btn_click', model)">Enviar</button>
+                                    @click="enviar">Enviar</button>
                             </div>
                         </div>
                     </div>
@@ -59,6 +59,27 @@ const model = ref({
     detalles: '',
     imagenes: []
 })
+
+const config_img = ref({
+    max_files: 3,
+    max_file_size: 1024 * 1024 * 3 //3MB
+})
+
+function enviar(){
+    if (!model.value.titulo || model.value.titulo == '') 
+        return alert("El Título no puede estar vacío.")
+
+    if (!model.value.detalles || model.value.detalles == '') 
+        return alert("Es necesario completar los Detalles.")
+
+    if (model.value.imagenes.length < 1)  
+        return alert("Es necesario subir al menos una imagen.")
+
+    if (model.value.imagenes.length > 3)  
+        return alert("Se permite hasta 3 imágenes.")
+
+    return emit('btn_click', model.value)
+}
 </script>
 
 <style lang="scss" scoped>
