@@ -35,7 +35,7 @@
                             o especificando referencias de la publicación a reportar.
                         </p>
 
-                        <h2 class="text-center">¿Como registro un reclamo?</h2>
+                        <h2 class="text-center mt-5">¿Como registro un reclamo?</h2>
 
                         <ul class="list-group">
                             <li class="list-group-item">1. Hacer click en <b>"+ Reclamo"</b></li>
@@ -43,6 +43,10 @@
                             <li class="list-group-item">3. Hacer click en <b>"SI"</b> para confirmar la ubicación</li>
                             <li class="list-group-item">4. Completar los detalles del reclamo y apretar en <b>"ENVIAR</b></li>
                         </ul>
+
+                        <h2 class="text-center mt-5">¿Como veo la información cargada?</h2>
+
+                        <p>Debe hacer click en el punto del mapa, y se mostrará la información completa.</p>
                     </div>
                 </div>
 
