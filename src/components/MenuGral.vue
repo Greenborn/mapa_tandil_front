@@ -24,7 +24,7 @@ const emit  = defineEmits(['btn_click'])
 
 <style lang="scss" scoped>
 .cont-gral-menu {
-    position: absolute;
+    position: fixed;
     top: 0px;
     z-index: 1200;
     left: 0;
