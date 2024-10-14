@@ -2,34 +2,34 @@
   <div class="container-fluid">
     <MenuGral @btn_click="click_menu" />
 
-    <MapaGral ref="mapa_ref" @navigate="click_menu" />
+    <MapGral v-if="ultimo_click_menu.id === 'MAP' "/>
+    <MapAddReclamo v-if="ultimo_click_menu.id === 'NEW_RECLAMO'" @navigate="click_menu"/>
 
     <HelpPage v-if="ultimo_click_menu.id === 'HELP'" />
-    <FormReclamo v-if="ultimo_click_menu.id === 'RECLAMO_PASO_3'" @btn_click="click_form_reclamo" />
+    <FormReclamo v-if="ultimo_click_menu.id === 'RECLAMO_PASO_3'" :context="context" @navigate="click_menu" />
   </div>
 </template>
 
 <script setup>
 import { ref } from 'vue';
 
-import MapaGral from './components/MapaGral.vue'
+import MapGral from './components/map-view/MapGral.vue'
 import MenuGral from './components/MenuGral.vue';
 import HelpPage from './components/HelpPage.vue';
 import FormReclamo from './components/FormReclamo.vue';
+import MapAddReclamo from './components/map-view/MapAddReclamo.vue';
 
-const mapa_ref = ref(null)
+const context = ref({
+  posicion: []
+})
+
+//const mapa_ref = ref(null)
 const ultimo_click_menu = ref({ id: "MAP" })
 
 async function click_menu(enlace) {
   ultimo_click_menu.value = enlace
-  await mapa_ref.value.update_context({ 'ultimo_enlace': enlace})
+  context.value = {...context.value, ...enlace?.context}
 }
-
-async function click_form_reclamo(data){
-  await mapa_ref.value.update_context({ 'form_reclamo_data': data, 'action': "NEW_RECLAMO" })
-  ultimo_click_menu.value.id = "MAP"
-}
-
 </script>
 
 <style lang="scss">
@@ -42,5 +42,15 @@ async function click_form_reclamo(data){
   height: 100vh;
   padding-top: 3.5rem;
   overflow: scroll;
+}
+
+.overlay-content {
+  background: #4a0000 !important;
+  color: white;
+  box-shadow: 0 5px 10px rgb(2 2 2 / 20%);
+  padding: 10px 20px;
+  font-size: 16px;
+  border-radius: 1rem;
+  font-weight: bold;
 }
 </style>
