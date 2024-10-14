@@ -39,7 +39,7 @@
 
                         <ul class="list-group">
                             <li class="list-group-item">1. Hacer click en <b>"+ Reclamo"</b></li>
-                            <li class="list-group-item">2. Hacer click en la zona del mapa</li>
+                            <li class="list-group-item">2. Hacer click en la zona del mapa (puede hacer zoom de ser necesario)</li>
                             <li class="list-group-item">3. Hacer click en <b>"SI"</b> para confirmar la ubicación</li>
                             <li class="list-group-item">4. Completar los detalles del reclamo y apretar en <b>"ENVIAR</b></li>
                         </ul>
