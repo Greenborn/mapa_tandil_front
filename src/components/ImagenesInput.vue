@@ -26,8 +26,6 @@
 <script setup>
 import { ref } from 'vue';
 
-//const Jimp = require('jimp');
-
 const props = defineProps(['modelValue', 'config'])
 const emit = defineEmits(['update:modelValue'])
 

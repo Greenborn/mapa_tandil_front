@@ -25,7 +25,7 @@
                                     v-model="model.detalles"></textarea>
                             </div>
 
-                            <ImagenesInput v-model="model.imagenes" :config="config_img"/>
+                            <ImagenesInput v-model="model.imagenes" :config="config_img" />
                         </div>
                     </div>
 
@@ -34,8 +34,7 @@
                             <div class="btn-group btn-group-sm" role="group">
                                 <button type="button" class="btn btn-outline-secondary"
                                     @click="emit('btn_click', false)">Cancelar</button>
-                                <button type="button" class="btn btn-outline-primary"
-                                    @click="enviar">Enviar</button>
+                                <button type="button" class="btn btn-outline-primary" @click="enviar">Enviar</button>
                             </div>
                         </div>
                     </div>
@@ -49,10 +48,12 @@
 
 <script setup>
 import { ref } from 'vue';
+import { new_reclamo } from '@/api/reclamos'
 
 import ImagenesInput from './ImagenesInput.vue';
 
-const emit = defineEmits(['btn_click'])
+const props = defineProps(['context'])
+const emit = defineEmits(['navigate'])
 
 const model = ref({
     titulo: '',
@@ -67,20 +68,33 @@ const config_img = ref({
     max_height: 768
 })
 
-function enviar(){
-    if (!model.value.titulo || model.value.titulo == '') 
+async function enviar() {
+    if (!model.value.titulo || model.value.titulo == '')
         return alert("El Título no puede estar vacío.")
 
-    if (!model.value.detalles || model.value.detalles == '') 
+    if (!model.value.detalles || model.value.detalles == '')
         return alert("Es necesario completar los Detalles.")
 
-    if (model.value.imagenes.length < 1)  
+    if (model.value.imagenes.length < 1)
         return alert("Es necesario subir al menos una imagen.")
 
-    if (model.value.imagenes.length > 3)  
+    if (model.value.imagenes.length > 3)
         return alert("Se permite hasta 3 imágenes.")
 
-    return emit('btn_click', model.value)
+    model.value['posicion'] = props.context?.posicion
+
+    let res_ = await new_reclamo(model.value)
+    if (res_.stat) {
+        //await update_reclamos()
+        alert("Reclamo subido correctamente.")
+        return emit('navigate', { id: 'MAP' })
+    } else {
+        //console.log(res_)
+        if (res_.error === true)
+            return alert(res_?.msg?.response?.data ? res_.msg.response.data : 'Error Interno, reintente luego')
+
+        alert(res_.error)
+    }
 }
 </script>
 
