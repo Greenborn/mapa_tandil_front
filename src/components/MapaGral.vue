@@ -189,6 +189,10 @@ async function update_context(contexto) {
             await update_reclamos()
             alert("Reclamo subido correctamente.")
         } else {
+            //console.log(res_)
+            if (res_.error === true)
+                return alert(res_?.msg?.response?.data ? res_.msg.response.data : 'Error Interno, reintente luego')
+            
             alert(res_.error)
         }
     }
