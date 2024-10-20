@@ -23,7 +23,7 @@
                         </ol-style>
                     </ol-feature>
 
-                    <ol-interaction-select @select="featureSelected" :condition="selectCondition">
+                    <ol-interaction-select ref="select_interaction" @select="featureSelected" :condition="selectCondition">
                         <ol-style>
                             <ol-style-circle :radius="7">
                                 <ol-style-stroke color="green" :width="15"></ol-style-stroke>
@@ -44,7 +44,7 @@
                 <ol-overlay :position="selectedCityPosition" v-if="selectedTitulo != ''">
                     <template v-slot="slotProps">
                         <div class="overlay-content">
-                            {{ selectedTitulo }} {{ slotProps.position }}
+                            {{ selectedTitulo }} <span class="d-none">{{ slotProps.position }}</span>
                         </div>
                     </template>
                 </ol-overlay>
@@ -64,6 +64,7 @@ import DetallePunto from './DetallePunto.vue';
 const vectorsource = ref(null);
 const map_ref = ref(null)
 const view = ref(null);
+const select_interaction = ref()
 
 const extent = inject("ol-extent");
 const selectConditions = inject("ol-selectconditions")
@@ -92,9 +93,10 @@ function featureSelected(event) {
         );
         selected.value = event.selected[0].values_
         try {
+            parent.location.hash = "map_req?id=" + selected.value.id
             view.value.setCenter(JSON.parse(selected.value.posicion))
         } catch (error) {
-            console.log()
+            console.log(error)
         }
 
         selectedTitulo.value = event.selected[0].values_.titulo;
@@ -106,6 +108,22 @@ function featureSelected(event) {
     selectedFeatures.value = event.selected;
 }
 
+function marcar_seleccionado( punto ){
+    selected.value = punto
+    //var source = vectorsource.value.source.getFeatures();
+    //console.log(select_interaction.value.select, source)
+    //vectorsource.value.source.selectFeature(source[0])
+    try {
+        selectedCityPosition.value = extent.getCenter(JSON.parse(selected.value.posicion) )
+        parent.location.hash = "map_req?id=" + selected.value.id
+        view.value.setCenter(JSON.parse(selected.value.posicion))
+    } catch (error) {
+        console.log(error)
+    }
+
+    selectedTitulo.value = punto.titulo;
+}
+
 async function update_reclamos() {
     marcadores.value = []
     let res = await get_reclamos()
@@ -114,7 +132,20 @@ async function update_reclamos() {
             let reclamo = res.data[i]
             //console.log(reclamo)
             marcadores.value.push({ ...reclamo, coordinate: JSON.parse(reclamo.posicion) })
+
+             
         }
+
+        let url_actual = parent.location.hash
+        let id_req = url_actual.split("map_req?id=")[1]    
+        setTimeout(()=>{
+                if (id_req != undefined)
+                    for (let i=0; i < marcadores.value.length; i++)
+                        if (marcadores.value[i]?.id == id_req){
+                            marcar_seleccionado(marcadores.value[i])
+                            break
+                        }
+            }, 2000)
     }
 }
 
