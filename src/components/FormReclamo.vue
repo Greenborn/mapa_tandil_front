@@ -33,7 +33,7 @@
                         <div class="col-auto p-2">
                             <div class="btn-group btn-group-sm" role="group">
                                 <button type="button" class="btn btn-outline-secondary"
-                                    @click="emit('btn_click', false)">Cancelar</button>
+                                    @click="emit('navigate', { id: 'MAP' })">Cancelar</button>
                                 <button type="button" class="btn btn-outline-primary" @click="enviar">Enviar</button>
                             </div>
                         </div>

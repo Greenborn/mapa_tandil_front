@@ -46,7 +46,7 @@
 </template>
 
 <script setup>
-import { ref, onMounted } from 'vue';
+import { ref, onMounted, inject } from 'vue';
 import ToastsCtrl from '../ToastsCtrl.vue'
 
 const emit = defineEmits(['navigate'])
@@ -56,6 +56,8 @@ const toasts_ref = ref(null)
 const vectorsource = ref(null);
 const map_ref = ref(null)
 const view = ref(null);
+const Feature = inject("ol-feature");
+const Geom = inject("ol-geom");
 
 const center = ref([-59.135030396398676, -37.33961347533027]);
 const projection = ref('EPSG:4326');
@@ -73,7 +75,42 @@ function new_reclamo_p1() {
     toasts_ref.value.present({
         title: 'Nuevo Reclamo', title_small: 'Paso 1',
         close_btn: false, confirm_btn: false,
-        msg: 'Haga click en la ubicación del mapa.'
+        msg: 'Haga click en la ubicación del mapa.',
+        btn_body: [
+            {
+                label: 'Ubicación Actual', class: 'm-1 btn btn-primary btn-sm', 
+                icon: 'bi bi-crosshair',
+                callback: async (cfg) => {
+                    const options = {
+                        enableHighAccuracy: true,
+                        timeout: 5000,
+                        maximumAge: 0,
+                    }
+
+                    navigator.geolocation.getCurrentPosition(
+                        (pos)=>{
+                            let coords = pos.coords
+                            coords = [coords.longitude, coords.latitude]
+                            drawEnable.value = false
+                            
+                            const feature = new Feature({
+                                geometry: new Geom.Point(coords),
+                            });
+                            vectorsource.value.source.addFeature(feature)
+                            view.value.setCenter(coords)
+
+                            ultimo_punto.value    = feature
+                            ultima_posicion.value = coords
+                            new_reclamo_p2()
+                        }, 
+                        (err)=>{
+                            console.warn(`ERROR(${err.code}): ${err.message}`)
+                            alert("No se pudo obtener la ubicación, es necesario permitir que el sitio acceda a su ubicación.")
+                        }, options)
+                    return cfg
+                }
+            }
+        ]
     })
     drawEnable.value = true
 }
@@ -85,6 +122,7 @@ function new_reclamo_p2() {
         title: 'Nuevo Reclamo', title_small: 'Paso 2',
         close_btn: false, confirm_btn: true,
         msg: '¿Confirma la ubicación seleccionada?',
+        btn_body: []
     })
 }
 

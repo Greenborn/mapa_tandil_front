@@ -9,6 +9,10 @@
             </div>
             <div class="toast-body">
                 {{ config.msg }}
+                <button v-for="btn_cfg in config.btn_body" :key="btn_cfg"
+                    type="button" :class="btn_cfg.class" @click="btn_body_click(btn_cfg)">
+                    <i v-if="btn_cfg.icon" :class="btn_cfg.icon"></i> {{ btn_cfg.label }}
+                </button>
 
                 <div v-if="config.confirm_btn" class="mt-2 pt-2 border-top">
                     <button type="button" class="m-1 btn btn-secondary btn-sm" @click="emit('btn_click', false)">No</button>
@@ -29,8 +33,13 @@ defineExpose({ present, dissmiss })
 const config = ref({
     title: '', title_small: '',
     close_btn: true, confirm_btn: false,
-    msg: 'TOAST!'
+    msg: 'TOAST!',
+    btn_body: []
 })
+
+async function btn_body_click(cfg){
+    return await cfg.callback(cfg)
+}
 
 const show = ref(false)
 
