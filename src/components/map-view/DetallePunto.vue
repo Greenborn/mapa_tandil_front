@@ -10,7 +10,7 @@
                             <button type="button" class="btn-close" aria-label="Close" @click="emit('close')"></button>
                         </div>
                     </div>
-                    <p class="card-text">{{ props.info?.detalles }}</p>
+                    <p class="card-text" v-html="linkify(props.info?.detalles)"></p>
                 </div>
                 <ul class="list-group list-group-flush">
                     
@@ -28,9 +28,17 @@
 </template>
 
 <script setup>
+/* eslint-disable */
 import { fechaDateToString } from '@/helpers/formatter'
 const props = defineProps(['info'])
 const emit = defineEmits(['close'])
+
+function linkify(text) { 
+    var urlRegex =/(\b(https?|ftp|file):\/\/[-A-Z0-9+&@#\/%?=~_|!:,.;]*[-A-Z0-9+&@#\/%=~_|])/ig; 
+    return text.replace(urlRegex, function(url) { 
+        return '<a href="' + url + '" target="_blank">' + url + '</a>'; 
+    }); 
+}
 
 function get_images() {
     if (!props.info?.imagenes) return []
