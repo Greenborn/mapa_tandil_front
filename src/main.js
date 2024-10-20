@@ -5,6 +5,7 @@ import App from './App.vue'
 //import store from './store'
 import PrimeVue from 'primevue/config'; // This imports the PrimeVue library.
 import "vue3-openlayers/styles.css";
+import 'bootstrap-icons/font/bootstrap-icons.css'
 
 import OpenLayersMap from "vue3-openlayers";
 
