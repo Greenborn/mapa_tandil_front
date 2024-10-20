@@ -62,5 +62,10 @@ function get_images() {
         width: 100%;
         height: auto;
     }
+
+    .card{
+        overflow: scroll;
+        max-height: calc( 100vh - 4.5rem );
+    }
 }
 </style>
